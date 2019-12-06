@@ -184,13 +184,13 @@ void drawMySelectionBox(void)
 	glColor3f(0.0, 0.0, 0.0);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	drawCircle(0.6 * width, 0.775 * height, 0.025 * width, 20);
-	displaytext(0.7 * width, 0.775 * height, "A");
+	displaytext2(0.7 * width, 0.775 * height, "A.");
 	drawCircle(0.6 * width, 0.675 * height, 0.025 * width, 20);
-	displaytext(0.7 * width, 0.675 * height, "B");
+	displaytext2(0.7 * width, 0.675 * height, "B.");
 	drawCircle(0.6 * width, 0.575 * height, 0.025 * width, 20);
-	displaytext(0.7 * width, 0.575 * height, "C");
+	displaytext2(0.7 * width, 0.575 * height, "C.");
 	drawCircle(0.6 * width, 0.475 * height, 0.025 * width, 20);
-	displaytext(0.7 * width, 0.475 * height, "D");
+	displaytext2(0.7 * width, 0.475 * height, "D.");
 
 	//draw check marks
 	glColor3f(0.6, 0.6, 0.6);
@@ -212,6 +212,46 @@ void drawTempPoint(void)
 	glEnd();
 }
 
+
+void drawPyramid(void)
+{
+	glBegin(GL_TRIANGLES);           // Begin drawing the pyramid with 4 triangles
+		  // Front
+	glColor3f(1.0f, 0.0f, 0.0f);     // Red
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glColor3f(0.0f, 1.0f, 0.0f);     // Green
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+	glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+	glVertex3f(1.0f, -1.0f, 1.0f);
+
+	// Right
+	glColor3f(1.0f, 0.0f, 0.0f);     // Red
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+	glVertex3f(1.0f, -1.0f, 1.0f);
+	glColor3f(0.0f, 1.0f, 0.0f);     // Green
+	glVertex3f(1.0f, -1.0f, -1.0f);
+
+	// Back
+	glColor3f(1.0f, 0.0f, 0.0f);     // Red
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glColor3f(0.0f, 1.0f, 0.0f);     // Green
+	glVertex3f(1.0f, -1.0f, -1.0f);
+	glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+
+	// Left
+	glColor3f(1.0f, 0.0f, 0.0f);       // Red
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glColor3f(0.0f, 0.0f, 1.0f);       // Blue
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glColor3f(0.0f, 1.0f, 0.0f);       // Green
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+	glEnd();   // Done drawing the pyramid
+	glEnd();
+
+
+}
 // Function to draw a grid.
 void drawGrid(void)
 {
@@ -248,15 +288,23 @@ void drawGrid(void)
 void drawScene1(void)
 {
 	glutSetWindow(id1);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glColor3f(0.0, 0.0, 0.0);
 	if (isGrid) drawGrid();
-
+	//cout << width << height << "width and height";
 	drawMySelectionBox();
-
-	glEnd();
-
+	glColor3f(1.0, 0.0, 0.0);
+	glPushMatrix();
+	//coordinates in the 
+	//glTranslatef(250, 300, 0);
+	glTranslatef(0.75*width, 0.775 * height, 0);
+	glScalef(1, 1, 0.01);
+	glutSolidCube(50); // Box.
+	glPopMatrix();
+	//drawPyramid();
+	
+	
 	glutSwapBuffers();
 }
 
@@ -398,7 +446,8 @@ void resize1(int w, int h)
 
 	// Set viewing box dimensions equal to window dimensions.
 	glOrtho(0.0, (float)w, 0.0, (float)h, -1.0, 1.0);
-
+	//glOrtho(-5, 5, -5, 5, 5, 100);
+	//glFrustum(-5.0, 5.0, -5.0, 5.0, -50.0, 100.0);
 	// Pass the size of the OpenGL window to globals.
 	width = w;
 	height = h;
